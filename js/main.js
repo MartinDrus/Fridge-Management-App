@@ -18,6 +18,8 @@ import renderPreset from "./_renderPresets.js";
 export const fridge = new Fridge();
 //!----------- TEST SECTION ----------- */
 
+console.log("HALOOOOOOO");
+
 // let eier = new Product("Eier","ceec", 1, "2022-11-03");
 // let milch = new Product("Milch", 3, "2023-3-15");
 // let milch1 = new Product("Milch", 3, "2023-3-15");
