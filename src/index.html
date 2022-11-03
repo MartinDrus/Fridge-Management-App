@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fridge Management App</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body style="overflow-y: hidden;">
+    <header>
+
+    </header>
+<!--//                                     MODAL                                                                  -->
+            <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+<!--             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+        </div>
+    </div>
+<!--//                                     APP CONTAINER                                                                  -->
+    <!-- Der Container für die gesamte App -->
+    <div id="fridge-app-container" class="container-fluid">
+        <div class="row" style="height: 50px">
+            <!-- Platzhalter -->
+        </div>
+        <div class="row">
+<!--//                                     INFO PANEL                                                                  -->
+
+            <!-- Das Info Panel auf der linken Seite für verschiedene Informationen bezüglich des Kühlschrank Zustands -->
+            <div class="col-1 py-4">
+
+                <!-- Div für Label mit Anzahl der Produkte im Kühlschrank -->
+                <div>
+                    <label class="form-label">Amount products 
+                        <br>
+                        <span class="badge text-bg-primary" id="products-amount-span">&nbsp;0&nbsp;</span>
+                    </label>
+                </div>
+                <!-- Div für Label freier Kühlschrank Kapazität -->
+                <div>
+                    <label class="form-label">Free capacity 
+                        <br>
+                        <span class="badge text-bg-success" id="fridge-free-capacity-span">100</span>
+                    </label>
+                </div>
+                <!-- Div für Label der Anzahl der Produkte, die morgen ablaufen -->
+                <div>
+                    <label class="form-label">Until tomorrow 
+                        <br>
+                        <button type="button" class="btn btn-warning .mx-auto" id="products-until-tomorrow-btn" style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" data-bs-toggle="modal"       data-bs-target="#exampleModal">
+                            <span class="badge text-bg" id="products-until-tomorrow-span">0</span>
+                        </button>
+                    </label>
+                </div>
+                <!-- Div für Label der Anzahl der Produkte, die bereits abgelaufen sind -->
+                <div>
+                    <label class="form-label">Expired products 
+                        <br>
+                        <button type="button" class="btn btn-danger .mx-auto" id="products-expired-btn" style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" data-bs-toggle="modal"       data-bs-target="#exampleModal">
+                            <span class="badge text-bg" id="products-expired-span">0</span>
+                        </button>
+
+                    </label>
+                </div>
+                <!-- Div für Label des Produkts mit dem kleinsten Volumen -->
+                <div>
+                    <label class="form-label">Smallest products
+                        <br>
+                        <button type="button" class="btn btn-secondary .mx-auto" id="smallest-product-btn" style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <span class="badge text-bg" id="smallest-product-span">0</span>
+                        </button>
+
+                    </label>
+                </div>
+                <!-- Div für Label des Produkts mit dem größten Volumen -->
+                <div>
+                    <label class="form-label">Biggest products
+                        <br>
+                        <button type="button" class="btn btn-secondary .mx-auto" id="biggest-product-btn" style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .25rem; --bs-btn-font-size: 1rem;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <span class="badge text-bg" id="biggest-product-span">0</span>
+                        </button>
+                    </label>
+                </div>
+            </div>
+<!--//                                     FRIDGE CONTAINER                                                                 -->
+            <!-- Fridge Container, der die Cards für die Klassen enthält -->
+            <div id="fridge-container"  class="col-9 d-flex align-items-center justify-content-center">
+                <div id="fridge-scroll-container" style="height:700px; width: 90%; overflow-y: auto;">
+                    <!-- Padding zur Sichtbarkeit der Badges -->
+                    <div id="fridge-products-container"  class="pt-3 d-flex flex-wrap" style="gap: 1em">
+                    <!-- Wird von Javascript befüllt -->
+                    </div>
+                </div>
+            </div>
+<!--//                                     FUNCTIONS                                                                  -->
+<!--//                                     CONTROLS                                                                  -->
+            <!-- Das Control Panel auf der rechten Seite für verschiedene Funktionen für den Inhalt des Kühlschanks -->
+            <div class="col-2 py-4">
+                <!-- Überschrift des Control Panels -->
+                <div>
+                    <label class="form-label">Controls</label>
+                </div>
+
+                <!-- Button zum Entfernen aller abgelaufenen Produkte aus dem Kühlschrank -->
+                <button type="button" class="btn btn-success col-12 mb-4" id="clean-fridge-btn"
+                    data-bs-toggle="tooltip" data-bs-placement="left"
+                    data-bs-title="Throws out all expired products"
+                >Clean</button>
+
+                <!-- Button zum Sortieren aller Produkte nach Ablaufdatum -->
+                <button type="button" class="btn btn-warning col-12 mb-4" id="sort-products-by-exp-date-btn"
+                    data-bs-toggle="tooltip" data-bs-placement="left"
+                    data-bs-title="Sorts all products by expiration date"
+                >Sort</button>
+
+                <!-- Button zum Entfernen aller Produkte aus dem Kühlschrank -->
+                <button type="button" class="btn btn-danger col-12 mb-4" id="remove-all-products-btn"
+                    data-bs-toggle="tooltip" data-bs-placement="left"
+                    data-bs-title="Clear whole fridge"
+                >Defrost</button>
+
+                <!-- Button für optionale erweiterte Funktionen -->
+                <button type="button" class="btn btn-info col-12 mb-4 position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal" id="show-shopping-list-btn" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Your personal shopping list" >
+                    Shopping List
+                    <span id="shopping-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        0
+                        <span class="visually-hidden">Amount of items on the shopping list</span>
+                    </span>
+                </button>
+
+                <div class="input-group">
+                    <button id="search-product-category-btn" class="btn btn-dark" type="button" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Select products by Category - Choose blank to show all" disabled>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <select class="form-select" id="search-select-product-category" aria-label="Filter by Category">
+                        <option value="0"></option>
+                        <option value="1">Beverages</option>
+                        <option value="2">Dairy Products</option>
+                        <option value="3">Vegetables</option>
+                        <option value="4">Animal Products</option>
+                        <option value="5">Spread</option>
+                        <option value="6">Sauces</option>
+                    </select>
+                  </div>
+
+            </div>
+        </div>
+<!--//                                     PROGRESS BAR                                                                  -->
+        <div class="d-flex align-items-center justify-content-center" style="height: 60px">
+            <div class="progress" style="width: 99%;">
+            </div>
+        </div>
+<!--//                                     PRODUCT INPUT SECTION                                                                  -->
+        <!-- Bereich für das Formular zum Hinzufügen neuer Produkte -->
+        <div class="row justify-content-center">
+<!--//                                     PRESETS                                                                  -->
+            <!-- Bereich für Voreinstellungen von neuen Produkten -->
+            <div class="col-5">
+                <div class="d-flex flex-row">
+                    <label class="form-label me-5 my-2">Presets</label>
+                    <div class="form-check form-switch my-2">
+                        <input class="form-check-input"  type="checkbox" role="switch" id="custom-expdate-preset-input">
+                        <label class="form-check-label" for="custom-expdate-preset-input">Custom Expiration Date</label>
+                    </div>
+                </div>
+                <div>
+                    <!-- Button zum Befüllen des Produkt-Hinzufüge-Formulars mit Voreinstellungen -->
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Salami</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Cheese</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Milk</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Yogurt</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Broccoli</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Zucchini</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Carrots</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Eggs</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Butter</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Jam</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Eggplants</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Cucumber</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Sausage</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Fish</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Wine</button>
+                    <button type="button" class="btn btn-secondary mb-2 mx-1 preset-class">Juice</button>
+                </div>
+            </div>
+<!--//                                     ADD PRODUCT                                                                  -->
+            <div class="col-6" >
+                <!-- Formular für das Hinzufügen neuer Produkte -->
+                <div class="row justify-content-center">
+                    <!-- Eingabebereich für den Namen des neuen Produkts -->
+                    <div class="col-3">
+                        <label for="form-add-product-name" class="form-label my-2">Product Name</label>
+                        <input type="text" class="form-control" placeholder="Product Name" id="form-add-product-name">
+                    </div>
+                                        <!-- Eingabebereich für den Namen des neuen Produkts -->
+                    <div class="col-3">
+                        <label for="form-select-product-category" class="form-label my-2">Product Category</label>
+                        <select class="form-select" id="form-select-product-category" >
+                            <option value="0">Beverages</option>
+                            <option value="1">Dairy Products</option>
+                            <option value="2">Vegetables</option>
+                            <option value="3">Animal Products</option>
+                            <option value="4">Spread</option>
+                            <option value="5">Sauces</option>
+                        </select>
+                    </div>
+                    <!-- Eingabebereich für das Volumen des neuen Produkts -->
+                    <div class="col-2">
+                        <label for="form-add-product-volume" class="form-label my-2">Product Volume</label>
+                        <input type="number" class="form-control" placeholder="Product Volume" min="1" value="1" id="form-add-product-volume">
+                    </div>
+                    <!-- Eingabebereich für das Ablaufdatum des neuen Produkts -->
+                    <div class="col-2">
+                        <label for="form-add-product-exp-date" class="form-label my-2">Expiration Date</label>
+                        <input type="date" class="form-control" placeholder="Expiration Date" id="form-add-product-exp-date">
+                    </div>
+                    <!-- Eingabebereich für den Bestätigungsknopfs des neuen Produkts -->
+                    <div class="col-2">
+                        <label for="btn-add-product" class="form-label my-2">Confirm</label>
+                        <button type="submit" class="btn btn-primary .mx-auto col-12" id="btn-add-product"
+                            data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-title="Add product with given information to fridge" disabled
+                        >Add</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+            </div>
+        </div>
+    </div>
+<!--//                                     SCRIPT INTEGRATION                                                                  -->
+    <!-- Vorladen von Bootstrap Javascript. Stehen lassen! -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    </script>
+    <script src="js/main.js" type="module"></script>
+</body>
+</html>

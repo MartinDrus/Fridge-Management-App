@@ -1,0 +1,8 @@
+
+#fridge-container {
+    background-color: rgb(241, 241, 241);
+    background-image: url('../img/newFridgeCoding.png');
+    background-position:top;
+    background-size:contain;
+    background-repeat: no-repeat;
+}
