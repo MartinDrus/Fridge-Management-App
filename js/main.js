@@ -6,13 +6,13 @@ import Fridge from "./fridge.js";
 import Product from "./product.js";
 //?Import von Funktionen
 // Import der Funktion für die GUI Ausgaben
-import renderFridge from "./_renderFridge.js";
+import renderFridge from "./renderFridge.js";
 // Import der Funktion für das Modal
-import renderModalInfoPanel from "./_renderModalInfoPanel.js";
+import renderModalInfoPanel from "./renderModalInfoPanel.js";
 // Import der Funktion für das Modal
-import renderModalShoppingList from "./_renderModalShoppingList.js";
+import renderModalShoppingList from "./renderModalShoppingList.js";
 // Import der Funktion für die Presets
-import renderPreset from "./_renderPresets.js";
+import renderPreset from "./renderPresets.js";
 /* -------------------------------------- */
 //Die Instanz der Kühlschrank-Klasse
 export const fridge = new Fridge();

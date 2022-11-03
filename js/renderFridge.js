@@ -1,5 +1,5 @@
-import createNewProductCard from "./_createNewProductCard.js";
-import renderProgressBar from "./_renderProgressBar.js";
+import createNewProductCard from "./createNewProductCard.js";
+import renderProgressBar from "./renderProgressBar.js";
 import { fridge } from "./main.js";
 
 // Referenz auf Produkte-Container

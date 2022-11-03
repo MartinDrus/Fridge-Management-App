@@ -4,7 +4,7 @@ import Product from "./product.js";
 // Import der in der Main erzeugten Fridge-Instanz
 import { fridge } from "./main.js";
 // Import der Funktion für die GUI Ausgaben
-import renderFridge from "./_renderFridge.js";
+import renderFridge from "./renderFridge.js";
 
 //Referenz auf die CheckBox Custom-Exp-Date
 let checkboxCustomDate = document.querySelector("#custom-expdate-preset-input");

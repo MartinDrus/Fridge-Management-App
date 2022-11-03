@@ -1,4 +1,4 @@
-import renderFridge from "./_renderFridge.js";
+import renderFridge from "./renderFridge.js";
 
 let shoppingListBadge = document.querySelector("#shopping-badge");
 
